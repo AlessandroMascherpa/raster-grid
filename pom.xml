@@ -1,0 +1,31 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.raster.grid</groupId>
+    <artifactId>grid-ascii</artifactId>
+    <version>1.0</version>
+
+    <name>ASCII Grid handler</name>
+    <description>
+        Library to handle ASCII Grid raster files.
+    </description>
+    <inceptionYear>2020</inceptionYear>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
