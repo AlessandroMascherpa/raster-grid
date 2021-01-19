@@ -8,6 +8,7 @@ import net.raster.grid.ascii.writer.GridWriter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.regex.Pattern;
 
@@ -60,7 +61,7 @@ public class RasterGridAscii
      * @throws IOException if source reader failed to read;
      * @throws IllegalArgumentException if the source reader was undefined;
      */
-    public static RasterGridAscii parse( BufferedReader reader )
+    public static RasterGridAscii parse( Reader reader )
             throws
                 IOException,
                 IllegalArgumentException
@@ -70,20 +71,24 @@ public class RasterGridAscii
             throw new IllegalAccessError( "Input reader is null." );
         }
         return
-                new RasterGridAscii( reader );
+                new RasterGridAscii
+                        (
+                                new BufferedReader( reader )
+                        );
     }
     private RasterGridAscii( BufferedReader reader )
             throws
                 IOException
     {
-        this.header = new RasterHeader();
+        this.reader =  reader;
+        this.header =  new RasterHeader();
 
         /* --- loop on grid header --- */
         RasterHeaderToken token;
         do
         {
             token       = null;
-            this.line   = reader.readLine();
+            this.line   = this.reader.readLine();
             if ( this.line != null )
             {
                 String[] split = this.line.trim().split( SPACES );
@@ -102,9 +107,6 @@ public class RasterGridAscii
 
         /* --- check if the header is well formed --- */
         this.header.isHeaderWellFormed();
-
-        /* --- the last line read did not belong to header --- */
-        this.reader  =  reader;
     }
 
     /* --- checkers --- */

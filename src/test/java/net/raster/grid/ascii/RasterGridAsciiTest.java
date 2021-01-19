@@ -80,7 +80,7 @@ public class RasterGridAsciiTest
     }
     private void compareSourceGridExpectedGrid( String source, boolean force, String nodata, Double value, String expected ) throws IOException
     {
-        BufferedReader  reader  = this.getReader( source );
+        Reader          reader  = this.getReader( source );
         RasterGridAscii raster  = RasterGridAscii.parse( reader );
         StringWriter    sw      = new StringWriter();
         BufferedWriter  writer  = new BufferedWriter( sw );
@@ -140,7 +140,7 @@ public class RasterGridAsciiTest
             throws
                 IOException
     {
-        BufferedReader  reader  = this.getReader( source );
+        Reader          reader  = this.getReader( source );
         RasterGridAscii raster  = RasterGridAscii.parse( reader );
         StringWriter    sw      = new StringWriter();
         BufferedWriter  writer  = new BufferedWriter( sw );
@@ -235,16 +235,13 @@ public class RasterGridAsciiTest
     }
 
     /* --- internal methods --- */
-    private BufferedReader  getReader( String resource )
+    private Reader  getReader( String resource )
     {
         return
-                new BufferedReader
+                new InputStreamReader
                         (
-                                new InputStreamReader
-                                        (
-                                                this.getClass().getResourceAsStream( resource ),
-                                                StandardCharsets.UTF_8
-                                        )
+                                this.getClass().getResourceAsStream( resource ),
+                                StandardCharsets.UTF_8
                         )
                 ;
     }
@@ -252,7 +249,7 @@ public class RasterGridAsciiTest
     private void assertGrid( String source, String dest ) throws IOException
     {
         int             line    = 1;
-        BufferedReader  rs      = this.getReader( source );
+        BufferedReader  rs      = new BufferedReader( this.getReader( source ) );
         BufferedReader  rd      = new BufferedReader( new StringReader( dest ) );
 
         while ( rs.ready() && rd.ready() )
