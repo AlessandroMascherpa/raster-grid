@@ -111,6 +111,10 @@ public class RasterGridAsciiTest
                 );
 
         assertGrid( expected, sw.toString() );
+
+        writer.close();
+        sw.close();
+        reader.close();
     }
 
     @Test
@@ -189,6 +193,10 @@ public class RasterGridAsciiTest
         raster.write( writer );
 
         assertGrid( expected, sw.toString() );
+
+        writer.close();
+        sw.close();
+        reader.close();
     }
 
 
@@ -257,6 +265,8 @@ public class RasterGridAsciiTest
             line ++ ;
         }
 
+        rd.close();
+        rs.close();
     }
 
 }
