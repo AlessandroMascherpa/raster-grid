@@ -1,6 +1,8 @@
 package net.raster.grid.ascii;
 
 import net.raster.grid.ascii.header.GridHeaderInvalidException;
+import net.raster.grid.ascii.header.value.RasterTokenValue;
+import net.raster.grid.ascii.header.value.TokenValue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -104,6 +106,14 @@ public class RasterGridAsciiTest
 
             assertEquals( nodata, raster.getNoDataValue().getValueAsText() );
         }
+
+        // --- attempt to inject an unknown value
+        RasterTokenValue noDataValue = raster.getNoDataValue();
+        if ( noDataValue != null )
+        {
+            noDataValue = TokenValue.parseDouble( "11" );
+        }
+
         raster.write
                 (
                         writer,

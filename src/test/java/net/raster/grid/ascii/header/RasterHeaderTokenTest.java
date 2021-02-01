@@ -34,8 +34,8 @@ public class RasterHeaderTokenTest
                         value
                 );
         assertEquals( "Expected token >" + token.getName() + "< but found: >" + parsed.name() + '<', token, parsed );
-        assertEquals( parsed.getValueAsText(), value );
-        assertEquals( parsed.getValue(), Integer.valueOf( value ) );
+        assertEquals( parsed.getValue().getValueAsText(), value );
+        assertEquals( parsed.getValue().getValueAsNumber(), Integer.valueOf( value ) );
 
         token   = RasterHeaderToken.Y_LL_CENTER;
         value   = "-23.8989";
@@ -45,8 +45,8 @@ public class RasterHeaderTokenTest
                         value
                 );
         assertEquals( "Expected token >" + token.getName() + "< but found: >" + parsed.name() + '<', token, parsed );
-        assertEquals( parsed.getValueAsText(), value );
-        assertEquals( parsed.getValue(), Double.valueOf( value ) );
+        assertEquals( parsed.getValue().getValueAsText(), value );
+        assertEquals( parsed.getValue().getValueAsNumber(), Double.valueOf( value ) );
 
         token   = RasterHeaderToken.CELL_SIZE;
         value   = "-23.8989";
@@ -56,8 +56,8 @@ public class RasterHeaderTokenTest
                         value
                 );
         assertEquals( "Expected token >" + token.getName() + "< but found: >" + parsed.name() + '<', token, parsed );
-        assertEquals( parsed.getValueAsText(), value );
-        assertEquals( parsed.getValue(), Double.valueOf( value ) );
+        assertEquals( parsed.getValue().getValueAsText(), value );
+        assertEquals( parsed.getValue().getValueAsNumber(), Double.valueOf( value ) );
 
         token   = RasterHeaderToken.NODATA;
         value   = "-23.8989";
@@ -67,8 +67,8 @@ public class RasterHeaderTokenTest
                         value
                 );
         assertEquals( "Expected token >" + token.getName() + "< but found: >" + parsed.name() + '<', token, parsed );
-        assertEquals( parsed.getValueAsText(), value );
-        assertEquals( parsed.getValue(), Double.valueOf( value ) );
+        assertEquals( parsed.getValue().getValueAsText(), value );
+        assertEquals( parsed.getValue().getValueAsNumber(), Double.valueOf( value ) );
 
         this.exception.expect( NumberFormatException.class );
         token   = RasterHeaderToken.N_COLLS;
