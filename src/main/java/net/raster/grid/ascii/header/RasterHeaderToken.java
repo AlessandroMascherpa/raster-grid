@@ -1,6 +1,10 @@
 package net.raster.grid.ascii.header;
 
 
+import net.raster.grid.ascii.header.value.RasterTokenValue;
+import net.raster.grid.ascii.header.value.TokenValue;
+
+
 /**
  * Tokens used in Grid ASCII header.
  *
@@ -11,91 +15,91 @@ public enum RasterHeaderToken
     N_COLLS( "ncols" )
             {
                 @Override
-                protected Integer parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Integer.parseInt( text );
+                            TokenValue.parseInteger( text );
                 }
             },
     N_ROWNS( "nrows" )
             {
                 @Override
-                protected Integer parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Integer.parseInt( text );
+                            TokenValue.parseInteger( text );
                 }
             },
     X_LL_CORNER( "xllcorner" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     Y_LL_CORNER( "yllcorner" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     X_LL_CENTER( "xllcenter" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     Y_LL_CENTER( "yllcenter" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     CELL_SIZE( "cellsize" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     DX( "dx" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     DY( "dy" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     NODATA( "NODATA_value" )
             {
                 @Override
-                protected Double parseValue( String text )
+                protected RasterTokenValue parseValue( String text )
                 {
                     return
-                            Double.parseDouble( text );
+                            TokenValue.parseDouble( text );
                 }
             },
     ;
@@ -104,24 +108,20 @@ public enum RasterHeaderToken
     /**
      * the real token name;
      */
-    private final String    name;
+    private final String        name;
     /**
      * the token name in lower case used only to parse incoming tokens;
      */
-    private final String    lowerName;
+    private final String        lowerName;
     /**
-     * the token value as text string;
+     * the token value
      */
-    private String          text;
-    /**
-     * the value not as string;
-     */
-    private Number          value;
+    private RasterTokenValue    value;
 
     /**
      * used to check input numbers;
      */
-    private static String   IS_NUMBER  = "^[+-]?\\d+(\\.\\d*)?$";
+    private static String       IS_NUMBER  = "^[+-]?\\d+(\\.\\d*)?$";
 
     /* --- constructors --- */
     RasterHeaderToken( String key )
@@ -197,34 +197,25 @@ public enum RasterHeaderToken
     {
         if ( ( value != null ) && value.matches( IS_NUMBER ) )
         {
-            this.text  = value;
             this.value = this.parseValue( value );
         }
         else
         {
-            throw new IllegalArgumentException( "Token value is not a valid number format." );
+            throw new IllegalArgumentException( "Token value is not a valid number format. It must match the regular expression: '" + IS_NUMBER + "'." );
         }
-    }
-    /**
-     * get the token value as text string;
-     *
-     * @return the token value;
-     */
-    public String getValueAsText()
-    {
-        return this.text;
     }
     /**
      * get the token value;
      *
      * @return the token value;
      */
-    public Number getValue()
+    public RasterTokenValue getValue()
     {
-        return value;
+        return
+                new TokenValue( this.value );
     }
 
-    protected abstract Number parseValue( String text );
+    protected abstract RasterTokenValue parseValue( String text );
 
     /* --- writers --- */
     /**
@@ -235,7 +226,7 @@ public enum RasterHeaderToken
     public String write()
     {
         return
-                String.format( "%-13s %s", this.name, this.text )
+                String.format( "%-13s %s", this.name, this.value.getValueAsText() )
                 ;
     }
 

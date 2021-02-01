@@ -4,6 +4,7 @@ package net.raster.grid.ascii;
 import net.raster.grid.ascii.header.GridHeaderInvalidException;
 import net.raster.grid.ascii.header.RasterHeader;
 import net.raster.grid.ascii.header.RasterHeaderToken;
+import net.raster.grid.ascii.header.value.RasterTokenValue;
 import net.raster.grid.ascii.writer.GridWriter;
 
 import java.io.BufferedReader;
@@ -159,7 +160,7 @@ public class RasterGridAscii
      *
      * @return the token about the number of rows;
      */
-    public RasterHeaderToken getNRows()
+    public RasterTokenValue getNRows()
     {
         return
                 this.header.getNRows();
@@ -169,7 +170,7 @@ public class RasterGridAscii
      *
      * @return the token about the number of columns;
      */
-    public RasterHeaderToken getNCols()
+    public RasterTokenValue getNCols()
     {
         return
                 this.header.getNRows();
@@ -180,7 +181,7 @@ public class RasterGridAscii
      *
      * @return the x-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getXllCorner()
+    public RasterTokenValue getXllCorner()
     {
         return
                 this.header.getXllCorner();
@@ -190,7 +191,7 @@ public class RasterGridAscii
      *
      * @return the y-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getYllCorner()
+    public RasterTokenValue getYllCorner()
     {
         return
                 this.header.getYllCorner();
@@ -213,7 +214,7 @@ public class RasterGridAscii
      *
      * @return the x-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getXllCenter()
+    public RasterTokenValue getXllCenter()
     {
         return
                 this.header.getXllCenter();
@@ -223,7 +224,7 @@ public class RasterGridAscii
      *
      * @return the y-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getYllCenter()
+    public RasterTokenValue getYllCenter()
     {
         return
                 this.header.getYllCenter();
@@ -246,7 +247,7 @@ public class RasterGridAscii
      *
      * @return the cell width; or {@code null if not defined;}
      */
-    public RasterHeaderToken getCellSize()
+    public RasterTokenValue getCellSize()
     {
         return
                 this.header.getCellSize();
@@ -268,7 +269,7 @@ public class RasterGridAscii
      *
      * @return the cell width; or {@code null if not defined;}
      */
-    public RasterHeaderToken getDX()
+    public RasterTokenValue getDX()
     {
         return
                 this.header.getDX();
@@ -278,7 +279,7 @@ public class RasterGridAscii
      *
      * @return the cell height; or {@code null if not defined;}
      */
-    public RasterHeaderToken getDY()
+    public RasterTokenValue getDY()
     {
         return
                 this.header.getDY();
@@ -296,7 +297,7 @@ public class RasterGridAscii
         this.header.setCellSize( dx, dy );
     }
 
-    public RasterHeaderToken getNoDataValue()
+    public RasterTokenValue getNoDataValue()
     {
         return
                 this.header.getNoDataValue();
@@ -358,8 +359,8 @@ public class RasterGridAscii
                 IllegalArgumentException
     {
         /* --- grid size --- */
-        Integer  rows    = (Integer) this.header.getNRows().getValue();
-        Integer  cols    = (Integer) this.header.getNCols().getValue();
+        Integer  rows    = (Integer) ( this.header.getNRows().getValueAsNumber() );
+        Integer  cols    = (Integer) ( this.header.getNCols().getValueAsNumber() );
 
         /* --- write the header --- */
         this.header.write( writer );

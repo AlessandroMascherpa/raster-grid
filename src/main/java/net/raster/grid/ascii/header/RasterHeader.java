@@ -1,6 +1,8 @@
 package net.raster.grid.ascii.header;
 
 
+import net.raster.grid.ascii.header.value.RasterTokenValue;
+
 import java.io.IOException;
 import java.io.Writer;
 
@@ -295,15 +297,15 @@ public class RasterHeader
         {
             this.assertDxDyDefined();
 
-            Double dx = (Double) this.dx.getValue();
-            Double dy = (Double) this.dy.getValue();
+            Double dx = (Double) ( this.dx.getValue().getValueAsNumber() );
+            Double dy = (Double) ( this.dy.getValue().getValueAsNumber() );
             if ( dx > dy )
             {
                 double corner
-                        = ( (Double) ( this.yllcorner.getValue() ) )
+                        = ( (Double) ( this.yllcorner.getValue().getValueAsNumber() ) )
                         -
                         (
-                                ( dx - dy )  * ( (Integer) ( this.nrows.getValue() ) )
+                                ( dx - dy )  * ( (Integer) ( this.nrows.getValue().getValueAsNumber() ) )
                         )
                         ;
 
@@ -315,7 +317,7 @@ public class RasterHeader
                 this.cellsize = RasterHeaderToken.parse
                         (
                                 RasterHeaderToken.CELL_SIZE.getName(),
-                                this.dx.getValueAsText()
+                                this.dx.getValue().getValueAsText()
                         );
                 this.dx       = null;
                 this.dy       = null;
@@ -323,10 +325,10 @@ public class RasterHeader
             else if ( dx < dy )
             {
                 double corner
-                        = ( (Double) ( this.xllcorner.getValue() ) )
+                        = ( (Double) ( this.xllcorner.getValue().getValueAsNumber() ) )
                         -
                         (
-                                ( dy - dx )  * ( (Integer) ( this.ncols.getValue() ) )
+                                ( dy - dx )  * ( (Integer) ( this.ncols.getValue().getValueAsNumber() ) )
                         )
                         ;
 
@@ -338,7 +340,7 @@ public class RasterHeader
                 this.cellsize = RasterHeaderToken.parse
                         (
                                 RasterHeaderToken.CELL_SIZE.getName(),
-                                this.dy.getValueAsText()
+                                this.dy.getValue().getValueAsText()
                         );
                 this.dx       = null;
                 this.dy       = null;
@@ -348,7 +350,7 @@ public class RasterHeader
                 this.cellsize = RasterHeaderToken.parse
                         (
                                 RasterHeaderToken.CELL_SIZE.getName(),
-                                this.dx.getValueAsText()
+                                this.dx.getValue().getValueAsText()
                         );
                 this.dx       = null;
                 this.dy       = null;
@@ -358,22 +360,24 @@ public class RasterHeader
 
     /* --- getters'n'setters --- */
     /**
-     * gets the grid number of rows;
+     * gets the grid rows number;
      *
-     * @return the token about the number of rows;
+     * @return he number of rows;
      */
-    public RasterHeaderToken getNRows()
+    public RasterTokenValue getNRows()
     {
-        return this.nrows;
+        return
+                this.nrows.getValue();
     }
     /**
-     * gets the grid number of columns;
+     * gets the grid columns number;
      *
-     * @return the token about the number of columns;
+     * @return the number of columns;
      */
-    public RasterHeaderToken getNCols()
+    public RasterTokenValue getNCols()
     {
-        return this.ncols;
+        return
+                this.ncols.getValue();
     }
 
     /**
@@ -381,18 +385,20 @@ public class RasterHeader
      *
      * @return the x-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getXllCorner()
+    public RasterTokenValue getXllCorner()
     {
-        return this.xllcorner;
+        return
+                RasterHeader.getValue( this.xllcorner );
     }
     /**
      * gets the lower left corner position;
      *
      * @return the y-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getYllCorner()
+    public RasterTokenValue getYllCorner()
     {
-        return this.yllcorner;
+        return
+                RasterHeader.getValue( this.yllcorner );
     }
     /**
      * sets the lower-left position;
@@ -442,18 +448,20 @@ public class RasterHeader
      *
      * @return the x-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getXllCenter()
+    public RasterTokenValue getXllCenter()
     {
-        return this.xllcenter;
+        return
+                RasterHeader.getValue( this.xllcenter );
     }
     /**
      * gets the lower left center position;
      *
      * @return the y-ll position; or {@code null if not defined;}
      */
-    public RasterHeaderToken getYllCenter()
+    public RasterTokenValue getYllCenter()
     {
-        return this.yllcenter;
+        return
+                RasterHeader.getValue( this.yllcenter );
     }
     /**
      * sets the cell center position;
@@ -503,9 +511,10 @@ public class RasterHeader
      *
      * @return the cell size; or {@code null if not defined;}
      */
-    public RasterHeaderToken getCellSize()
+    public RasterTokenValue getCellSize()
     {
-        return this.cellsize;
+        return
+                RasterHeader.getValue( this.cellsize );
     }
     /**
      * set the size of square cell;
@@ -546,18 +555,20 @@ public class RasterHeader
      *
      * @return the cell width; or {@code null if not defined;}
      */
-    public RasterHeaderToken getDX()
+    public RasterTokenValue getDX()
     {
-        return this.dx;
+        return
+                RasterHeader.getValue( this.dx );
     }
     /**
      * gets the cell height;
      *
      * @return the cell height; or {@code null if not defined;}
      */
-    public RasterHeaderToken getDY()
+    public RasterTokenValue getDY()
     {
-        return this.dy;
+        return
+                RasterHeader.getValue( this.dy );
     }
     /**
      * set the size of rectangular cell;
@@ -604,9 +615,10 @@ public class RasterHeader
      *
      * @return the NODATA value; or {@code null if not defined;}
      */
-    public RasterHeaderToken getNoDataValue()
+    public RasterTokenValue getNoDataValue()
     {
-        return this.nodata;
+        return
+                RasterHeader.getValue( this.nodata );
     }
     /**
      * replaces the NODATA_VALUE with a new one;
@@ -624,7 +636,7 @@ public class RasterHeader
         {
             if ( ( this.nodataOriginal == null ) && ( this.nodata != null ) )
             {
-                this.nodataOriginal = this.nodata.getValueAsText();
+                this.nodataOriginal = this.nodata.getValue().getValueAsText();
             }
             this.nodata = RasterHeaderToken.parse
                     (
@@ -644,7 +656,7 @@ public class RasterHeader
     {
         return
                 ( ( this.nodata != null ) && ( this.nodataOriginal != null ) )
-                ? new ReplaceValues( this.nodataOriginal, this.nodata.getValueAsText() )
+                ? new ReplaceValues( this.nodataOriginal, this.nodata.getValue().getValueAsText() )
                 : new NothingToReplace()
                 ;
     }
@@ -748,6 +760,13 @@ public class RasterHeader
                         ^
                         ( this.isCellRectangular() )
                 )
+                ;
+    }
+
+    private static RasterTokenValue getValue( RasterHeaderToken token )
+    {
+        return
+                ( token != null ) ? token.getValue() : null
                 ;
     }
 
