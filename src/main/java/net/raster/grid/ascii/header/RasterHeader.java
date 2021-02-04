@@ -776,7 +776,7 @@ public class RasterHeader
     {
         String replace( String data );
     }
-    public class NothingToReplace implements NoDataReplace
+    public static class NothingToReplace implements NoDataReplace
     {
         @Override
         public String replace( String data )
@@ -785,7 +785,7 @@ public class RasterHeader
                     data;
         }
     }
-    public class ReplaceValues implements NoDataReplace
+    public static class ReplaceValues implements NoDataReplace
     {
         /* --- properties --- */
         private String old;
