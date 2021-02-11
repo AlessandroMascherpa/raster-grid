@@ -5,13 +5,31 @@
     <artifactId>grid-ascii</artifactId>
     <version>1.0.0</version>
 
+    <packaging>jar</packaging>
+
     <name>ASCII Grid handler</name>
     <description>
         Library to handle ASCII Grid raster files.
     </description>
     <inceptionYear>2020</inceptionYear>
+    <inceptionYear>2021</inceptionYear>
+    <url />
+    <organization />
+    <licenses />
+    <developers>
+        <developer>
+            <name>Alessandro Mascherpa</name>
+            <email>a.mascherpa@computer.org</email>
+            <roles>
+                <role>designer</role>
+            </roles>
+        </developer>
+    </developers>
+    <contributors />
+    <scm />
+    <distributionManagement />
+    <issueManagement />
 
-    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
