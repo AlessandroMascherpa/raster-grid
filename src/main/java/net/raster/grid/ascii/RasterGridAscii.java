@@ -111,7 +111,6 @@ public class RasterGridAscii
     }
 
     /* --- checkers --- */
-
     /**
      * checks if coordinate are defined at lower-left corner;
      *
@@ -208,6 +207,22 @@ public class RasterGridAscii
     {
         this.header.setCorner( x, y );
     }
+    /**
+     * sets the lower-left position;
+     * it replaces previous position, both lower-left or center position;
+     *
+     * @param x    the x position;
+     * @param y    the y position;
+     * @throws IllegalArgumentException if a coordinate is not valid;
+     */
+    public void setCorner( double x, double y ) throws IllegalArgumentException
+    {
+        this.header.setCorner
+                (
+                        Double.toString( x ),
+                        Double.toString( y )
+                );
+    }
 
     /**
      * gets the lower left center position;
@@ -241,6 +256,22 @@ public class RasterGridAscii
     {
         this.header.setCenter( x, y );
     }
+    /**
+     * sets the cell center position;
+     * it replaces previous position, both lower-left or center position;
+     *
+     * @param x    the x position;
+     * @param y    the y position;
+     * @throws IllegalArgumentException if a coordinate is not valid;
+     */
+    public void setCenter( double x, double y ) throws IllegalArgumentException
+    {
+        this.header.setCenter
+                (
+                        Double.toString( x ),
+                        Double.toString( y )
+                );
+    }
 
     /**
      * gets the cell width;
@@ -256,12 +287,30 @@ public class RasterGridAscii
      * set the size of square cell;
      * it replaces previous size, either square or rectangular;
      *
+     * Notice: this method does not change the grid;
+     *
      * @param size    the cell size;
      * @throws IllegalArgumentException if size is not valid;
      */
     public void setCellSize( String size ) throws IllegalArgumentException
     {
         this.header.setCellSize( size );
+    }
+    /**
+     * set the size of square cell;
+     * it replaces previous size, either square or rectangular;
+     *
+     * Notice: this method does not change the grid;
+     *
+     * @param size    the cell size;
+     * @throws IllegalArgumentException if size is not valid;
+     */
+    public void setCellSize( double size ) throws IllegalArgumentException
+    {
+        this.header.setCellSize
+                (
+                        Double.toString( size )
+                );
     }
 
     /**
@@ -288,6 +337,8 @@ public class RasterGridAscii
      * set the size of rectangular cell;
      * it replaces previous size, either square or rectangular;
      *
+     * Notice: this method does not change the grid;
+     *
      * @param dx      the cell width;
      * @param dy      the cell height;
      * @throws IllegalArgumentException if size is not valid;
@@ -296,7 +347,30 @@ public class RasterGridAscii
     {
         this.header.setCellSize( dx, dy );
     }
+    /**
+     * set the size of rectangular cell;
+     * it replaces previous size, either square or rectangular;
+     *
+     * Notice: this method does not change the grid;
+     *
+     * @param dx      the cell width;
+     * @param dy      the cell height;
+     * @throws IllegalArgumentException if size is not valid;
+     */
+    public void setCellSize( double dx, double dy ) throws IllegalArgumentException
+    {
+        this.header.setCellSize
+                (
+                        Double.toString( dx ),
+                        Double.toString( dy )
+                );
+    }
 
+    /**
+     * gets the cell used used to define a no values cell;
+     *
+     * @return the no data value;
+     */
     public RasterTokenValue getNoDataValue()
     {
         return
@@ -312,6 +386,20 @@ public class RasterGridAscii
     public void setNoDataValue( String value )
     {
         this.header.setNoDataValue( value );
+    }
+    /**
+     * defines the new NODATA value;
+     * at grid writing time, the old value will be replaced with the new one
+     * defined with this method;
+     *
+     * @param value    the new NODATA value;
+     */
+    public void setNoDataValue( double value )
+    {
+        this.header.setNoDataValue
+                (
+                        Double.toString( value )
+                );
     }
 
     /* --- handling --- */
@@ -344,6 +432,8 @@ public class RasterGridAscii
      * writes the whole grid and performs the following:
      * - the old NODATA value will be replaced with the new one, if defined;
      * - grid size consistency check;
+     *
+     * At write end, the writer is flushed.
      *
      * @param writer    grid destination;
      * @param listener  call back methods;
